@@ -1,0 +1,668 @@
+/* ─── Battle scene v3 ─────────────────────────────────────────────────────
+   Same monochrome palette as the lobby. NO navy, NO neon. One sparing red
+   accent for the live attack ticker.
+   ─────────────────────────────────────────────────────────────────────── */
+
+.arena-v3 {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "countdown"
+    "stage"
+    "judges";
+  align-items: center;
+  padding: clamp(20px, 3vh, 36px) 32px clamp(20px, 4vh, 48px);
+  gap: clamp(16px, 2.5vh, 32px);
+  overflow: hidden;
+  /* Background comes from body in globals.css; arena gets a small extra
+     darken layer so portraits + bubbles read crisply against the busier
+     mid-image core. */
+  background-image:
+    radial-gradient(
+      ellipse at center 30%,
+      rgba(0, 0, 0, 0.0) 0%,
+      rgba(0, 0, 0, 0.38) 70%
+    );
+}
+
+.arena-v3__countdown { grid-area: countdown; display: flex; justify-content: center; }
+.arena-v3__stage    { grid-area: stage; }
+.arena-v3__judges   {
+  grid-area: judges;
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.arena-v3__booting {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--type-mono);
+  color: var(--c-fg-dim);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+}
+
+/* ─── Countdown ─────────────────────────────────────────────────────── */
+.arena-v3__countdown {
+  display: flex;
+  justify-content: center;
+}
+
+.countdown-v3 {
+  font-family: var(--type-serif);
+  font-size: clamp(56px, 8vw, 96px);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--c-fg);
+  letter-spacing: -0.02em;
+  padding: 4px 0;
+}
+
+.countdown-v3__digits {
+  background: linear-gradient(180deg, #fafafa, #71717a 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.countdown-v3--danger .countdown-v3__digits {
+  background: linear-gradient(180deg, #fafafa, #ef4444 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: countdown-pulse 1.1s infinite ease-in-out;
+}
+
+@keyframes countdown-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+/* ─── Stage ─────────────────────────────────────────────────────────── */
+.arena-v3__stage {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(420px, 1fr) minmax(280px, 360px);
+  align-items: center;
+  gap: clamp(18px, 3vw, 48px);
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  min-height: 0;
+}
+
+.arena-v3__center {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  min-width: 380px;
+}
+
+/* ─── AttackStreak ──────────────────────────────────────────────────── */
+.streak {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 90px;
+}
+
+.streak__vs {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--type-serif);
+  font-style: italic;
+  font-size: clamp(36px, 5vw, 64px);
+  color: var(--c-fg-faint);
+  letter-spacing: -0.02em;
+}
+
+.streak__bolt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.streak__bolt svg {
+  width: 100%;
+  height: 60px;
+  filter: drop-shadow(0 0 14px currentColor);
+}
+.streak__bolt--wound  { color: #ef4444; }
+.streak__bolt--fail   { color: #71717a; }
+.streak__bolt--attempt { color: #fafafa; }
+.streak__bolt--patch  { color: #5be6a8; }
+
+.streak__label {
+  font-family: var(--type-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: currentColor;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ─── BattlePortrait ────────────────────────────────────────────────── */
+.bp {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  min-width: 0;
+}
+
+.bp--left { align-items: flex-start; }
+.bp--right { align-items: flex-end; }
+
+.bp__bubble-slot {
+  height: 76px;          /* reserved space — prevents layout jump */
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+.bp__bubble-slot--left  { justify-content: flex-start; padding-left: 12px; }
+.bp__bubble-slot--right { justify-content: flex-end;   padding-right: 12px; }
+
+.bp__card {
+  position: relative;
+  background: var(--c-bg-elev-1);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--c-border);
+  border-radius: 32px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+/* ─── Card flash states (driven by `data-flash`) ────────────────────── */
+.bp__card[data-flash="attacking"] {
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 30px 60px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(255, 255, 255, 0.18);
+}
+.bp__card[data-flash="wounded"] {
+  border-color: rgba(239, 68, 68, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.45),
+    0 30px 60px rgba(0, 0, 0, 0.55),
+    0 0 56px rgba(239, 68, 68, 0.32);
+  animation: bp-shake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+.bp__card[data-flash="patching"] {
+  border-color: rgba(91, 230, 168, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(91, 230, 168, 0.32),
+    0 30px 60px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(91, 230, 168, 0.20);
+}
+.bp__card[data-flash="missed"] {
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.55);
+  filter: saturate(0.6) brightness(0.85);
+}
+.bp__card[data-flash="broken"] {
+  border-color: rgba(244, 164, 74, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(244, 164, 74, 0.32),
+    0 30px 60px rgba(0, 0, 0, 0.55);
+  animation: bp-shake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes bp-shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* ─── Floating damage chip + radial hit sparks ──────────────────────── */
+.bp__damage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--type-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 60px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  z-index: 4;
+  text-shadow:
+    0 0 24px currentColor,
+    0 4px 16px rgba(0, 0, 0, 0.7);
+}
+.bp__damage--wound { color: #ef4444; }
+.bp__damage--patch { color: #5be6a8; }
+
+.sparks {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 3;
+}
+.sparks__shard {
+  position: absolute;
+  width: 22px;
+  height: 3px;
+  border-radius: 999px;
+  display: block;
+}
+.sparks--wound .sparks__shard { background: linear-gradient(90deg, transparent, #ef4444, #fafafa); box-shadow: 0 0 16px #ef4444; }
+.sparks--patch .sparks__shard { background: linear-gradient(90deg, transparent, #5be6a8, #fafafa); box-shadow: 0 0 14px #5be6a8; }
+.sparks--miss  .sparks__shard { background: linear-gradient(90deg, transparent, #71717a, #fafafa); box-shadow: 0 0 12px #71717a; }
+
+/* ─── Action chip overlay on the portrait ───────────────────────────── */
+.bp__action {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--type-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fafafa;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  z-index: 2;
+  white-space: nowrap;
+}
+.bp__action--attacking { color: #fafafa; border-color: rgba(255,255,255,0.5); }
+.bp__action--wounded   { color: #ef4444; border-color: rgba(239, 68, 68, 0.65); }
+.bp__action--patching  { color: #5be6a8; border-color: rgba(91, 230, 168, 0.55); }
+.bp__action--missed    { color: var(--c-fg-faint); border-color: var(--c-border); }
+.bp__action--broken    { color: #f4a44a; border-color: rgba(244, 164, 74, 0.55); }
+
+.bp__portrait {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--c-zinc-800);
+}
+
+.bp__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.05);
+}
+
+.bp__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bp__name {
+  font-family: var(--type-serif);
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--c-fg);
+}
+
+.bp__ens {
+  font-family: var(--type-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--c-fg-dim);
+  word-break: break-all;
+}
+
+.bp__score {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid var(--c-border);
+  padding-top: 14px;
+}
+
+.bp__score-label {
+  font-family: var(--type-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--c-fg-dim);
+}
+
+.bp__score-num {
+  font-family: var(--type-serif);
+  font-style: italic;
+  font-size: 44px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+  color: var(--c-fg);
+  line-height: 1;
+}
+
+/* ─── Floating bubble (judge-style, but bigger, above each player) ───── */
+.bp__bubble {
+  background: rgba(244, 244, 245, 0.97);
+  color: var(--c-bg);
+  border-radius: 22px;
+  padding: 14px 20px;
+  font-size: 16px;
+  line-height: 1.35;
+  font-family: var(--type-sans);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  position: relative;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  max-width: 360px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bp__bubble--left {
+  border-bottom-left-radius: 6px;
+}
+.bp__bubble--right {
+  border-bottom-right-radius: 6px;
+}
+/* Tail pointer */
+.bp__bubble::after {
+  content: "";
+  position: absolute;
+  width: 12px; height: 12px;
+  background: rgba(244, 244, 245, 0.97);
+  border-right: 1px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  bottom: -6px;
+  transform: rotate(45deg);
+}
+.bp__bubble--left::after  { left: 28px; }
+.bp__bubble--right::after { right: 28px; }
+
+/* ─── Battle narrator (lives between the two portrait cards) ─────────── */
+.narrator {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  background: rgba(18, 18, 18, 0.62);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--c-border);
+  border-radius: 24px;
+  padding: 16px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 320px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.narrator__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--type-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--c-fg-dim);
+  text-transform: uppercase;
+  border-bottom: 1px dashed var(--c-border);
+  padding-bottom: 8px;
+}
+
+.narrator__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #5be6a8;
+  box-shadow: 0 0 10px #5be6a8;
+  animation: narrator-pulse 1.4s infinite ease-in-out;
+}
+
+.narrator__title {
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--c-fg);
+}
+
+.narrator__sub {
+  color: var(--c-fg-faint);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  margin-left: auto;
+}
+
+.narrator__feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.beat {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: 12px;
+  font-family: var(--type-sans);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--c-fg);
+  padding: 8px 4px;
+  border-radius: 10px;
+}
+
+.beat__time {
+  display: none;
+}
+
+.beat__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-fg-dim);
+}
+
+.beat__time {
+  font-family: var(--type-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--c-fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.beat__text {
+  letter-spacing: -0.005em;
+}
+.beat__text strong { font-weight: 700; }
+.beat__text em     { font-style: normal; color: var(--c-fg); font-weight: 600; }
+.beat__text code   {
+  font-family: var(--type-mono);
+  font-size: 0.92em;
+  color: var(--c-fg);
+  background: var(--c-accent-soft);
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+.beat__reason {
+  color: var(--c-fg-dim);
+  font-style: italic;
+}
+
+.beat--probe  .beat__icon { color: #7dd0ff; }
+.beat--attack .beat__icon { color: #fafafa; }
+.beat--wound  { background: rgba(239, 68, 68, 0.06); }
+.beat--wound  .beat__icon { color: #ef4444; }
+.beat--wound  .beat__text strong { color: #fafafa; }
+.beat--fail   .beat__icon { color: #71717a; }
+.beat--fail   .beat__text { color: var(--c-fg-dim); }
+.beat--patch  .beat__icon { color: #5be6a8; }
+.beat--broken .beat__icon { color: #f4a44a; }
+.beat--open   .beat__icon { color: var(--c-fg-dim); }
+.beat--open   .beat__text { color: var(--c-fg-dim); font-style: italic; }
+.beat--idle {
+  display: flex;
+  gap: 12px;
+  font-family: var(--type-mono);
+  font-size: 13px;
+  color: var(--c-fg-faint);
+  font-style: italic;
+  padding: 24px 0 10px;
+  justify-content: center;
+}
+
+@keyframes narrator-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ─── Judge strip ───────────────────────────────────────────────────── */
+.arena-v3__judges {
+  display: flex;
+  justify-content: center;
+}
+
+.judges {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 1180px;
+  align-items: end;
+}
+
+.judge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.judge__bubble {
+  background: rgba(18, 18, 18, 0.94);
+  border: 1px solid var(--c-border-raised);
+  color: var(--c-fg);
+  border-radius: 18px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: var(--type-sans);
+  font-weight: 500;
+  line-height: 1.4;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 280px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+
+.judge__bubble::after {
+  content: "";
+  position: absolute;
+  width: 8px; height: 8px;
+  background: rgba(18, 18, 18, 0.92);
+  border-right: 1px solid var(--c-border-raised);
+  border-bottom: 1px solid var(--c-border-raised);
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.judge__card {
+  width: clamp(80px, 7vw, 104px);
+  height: clamp(80px, 7vw, 104px);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--c-zinc-800);
+  border: 1px solid var(--c-border);
+  transition: 220ms ease;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+}
+
+.judge__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.judge__card--active {
+  border-color: var(--c-fg);
+  box-shadow:
+    0 0 0 2px var(--c-fg),
+    0 14px 30px rgba(0, 0, 0, 0.45),
+    0 0 28px rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+}
+
+.judge__name {
+  font-family: var(--type-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--c-fg);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@media (max-width: 980px) {
+  .arena-v3 {
+    padding: 16px 16px 20px;
+  }
+  .arena-v3__stage {
+    gap: 16px;
+  }
+  .bp__card {
+    max-width: 100%;
+  }
+  .judges {
+    gap: 8px;
+  }
+  .judge__card {
+    width: 48px; height: 48px;
+  }
+}

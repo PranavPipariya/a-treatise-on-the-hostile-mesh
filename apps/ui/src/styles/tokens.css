@@ -1,0 +1,68 @@
+:root {
+  /* ─── Lobby palette (monochrome, modern, glassy) ───────────────────── */
+  --c-zinc-950: #0a0a0a;
+  --c-zinc-900: #121212;
+  --c-zinc-800: #18181b;
+  --c-zinc-700: #27272a;
+  --c-zinc-600: #3f3f46;
+  --c-zinc-500: #71717a;
+  --c-zinc-400: #a1a1aa;
+  --c-zinc-300: #d4d4d8;
+  --c-zinc-200: #e4e4e7;
+  --c-zinc-100: #f4f4f5;
+  --c-zinc-50:  #fafafa;
+
+  --c-bg: var(--c-zinc-950);
+  --c-bg-elev-1: rgba(18, 18, 18, 0.55);
+  --c-bg-elev-2: rgba(24, 24, 27, 0.85);
+  --c-bg-glass: rgba(10, 10, 10, 0.5);
+
+  --c-fg: var(--c-zinc-100);
+  --c-fg-dim: var(--c-zinc-400);
+  --c-fg-faint: var(--c-zinc-500);
+
+  --c-border: rgba(255, 255, 255, 0.10);
+  --c-border-raised: rgba(255, 255, 255, 0.18);
+  --c-border-strong: rgba(255, 255, 255, 0.28);
+
+  --c-accent: #f4f4f5;
+  --c-accent-on: #0a0a0a;
+  --c-accent-soft: rgba(255, 255, 255, 0.08);
+
+  /* ─── Combat palette (battle scene only) ───────────────────────────── */
+  --c-bg-deep: #050912;
+  --c-bg-raised: #0f1a36;
+  --c-grid: rgba(80, 130, 220, 0.12);
+  --c-line: rgba(140, 200, 255, 0.18);
+  --c-line-strong: rgba(140, 200, 255, 0.4);
+  --c-magenta: #ff48b0;
+  --c-magenta-soft: rgba(255, 72, 176, 0.25);
+  --c-magenta-glow: rgba(255, 72, 176, 0.55);
+  --c-cyan: #7dd0ff;
+  --c-cyan-soft: rgba(125, 208, 255, 0.2);
+  --c-amber: #ffb84d;
+  --c-good: #5be6a8;
+  --c-bad: #ff5d6c;
+  --c-warn: #ffd166;
+
+  /* ─── Type ─────────────────────────────────────────────────────────── */
+  --type-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --type-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Helvetica, Arial, sans-serif;
+  --type-display: "Space Grotesk", system-ui, sans-serif;
+  --type-serif: "Instrument Serif", "Cormorant Garamond", "EB Garamond",
+                ui-serif, Georgia, serif;
+
+  /* ─── Geometry ─────────────────────────────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 24px rgba(255, 72, 176, 0.35);
+  --shadow-cyan-glow: 0 0 24px rgba(125, 208, 255, 0.3);
+}
