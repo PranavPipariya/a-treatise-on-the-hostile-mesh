@@ -148,16 +148,10 @@ export function PostMatchScene({ state, onReplay, onHome }: Props) {
             <Home size={14} /> <span>Home</span>
           </button>
         )}
-        <motion.button
-          className="primary-pill"
-          onClick={onReplay}
-          whileHover={{ y: -2 }}
-          whileTap={{ y: 0 }}
-          transition={{ type: "spring", stiffness: 320, damping: 26 }}
-        >
+        <button className="primary-pill" onClick={onReplay}>
           <span>Begin another battle</span>
           <ArrowRight size={16} />
-        </motion.button>
+        </button>
       </motion.footer>
     </div>
   );

@@ -104,17 +104,14 @@ export function PlayerPickerScene({ onConfirm, onBack }: Props) {
         transition={{ delay: 0.4, duration: 0.5 }}
       >
         {error && <div className="picker-v3__error">{error}</div>}
-        <motion.button
+        <button
           className="primary-pill"
           onClick={begin}
           disabled={picked.length !== 2 || submitting}
-          whileHover={picked.length === 2 ? { y: -2 } : undefined}
-          whileTap={picked.length === 2 ? { y: 0 } : undefined}
-          transition={{ type: "spring", stiffness: 320, damping: 26 }}
         >
           <span>{submitting ? "Opening match…" : "Begin Battle"}</span>
           {!submitting && <ArrowRight size={16} />}
-        </motion.button>
+        </button>
       </motion.div>
     </div>
   );

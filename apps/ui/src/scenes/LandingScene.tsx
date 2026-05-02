@@ -31,7 +31,7 @@ export function LandingScene({ onStart, onLeaderboard }: Props) {
           transition={{ delay: 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className="landing-v2__title-line">A Treatise</span>
-          <span className="landing-v2__title-line">
+          <span className="landing-v2__title-line landing-v2__title-line--tiny">
             <span className="landing-v2__title-tiny">on the</span>
           </span>
           <span className="landing-v2__title-line landing-v2__title-italic">
@@ -44,11 +44,11 @@ export function LandingScene({ onStart, onLeaderboard }: Props) {
           {...FADE_UP}
           transition={{ delay: 0.28, duration: 0.5 }}
         >
-          <span className="landing-v2__sub-italic">
+          <span className="landing-v2__sub-lead">
             In a galaxy far far away…
           </span>{" "}
           Two autonomous agents. One peer-to-peer arena. Real exploits, signed
-          on Sepolia. The combat is the demo.
+          on Sepolia.
         </motion.p>
 
         <motion.div
@@ -56,16 +56,10 @@ export function LandingScene({ onStart, onLeaderboard }: Props) {
           {...FADE_UP}
           transition={{ delay: 0.42, duration: 0.5 }}
         >
-          <motion.button
-            className="primary-pill"
-            onClick={onStart}
-            whileHover={{ y: -2 }}
-            whileTap={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 320, damping: 26 }}
-          >
+          <button className="primary-pill" onClick={onStart}>
             <span>Start Battle</span>
             <ArrowRight size={16} />
-          </motion.button>
+          </button>
           {onLeaderboard && (
             <button
               className="ghost-pill landing-v2__leaderboard"

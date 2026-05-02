@@ -1,102 +1,56 @@
-/* ─── Shared primary action pill (lobby + post-match) ─────────────────── */
-/* Bigger, with a fill that slides in from the left on hover. The arrow
-   icon nudges right at the same time so the whole thing feels propulsive. */
-.primary-pill {
-  position: relative;
-  background: var(--c-fg);
-  color: var(--c-bg);
-  border: none;
-  padding: 18px 36px;
-  border-radius: var(--radius-pill);
-  font-family: var(--type-sans);
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: -0.005em;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  overflow: hidden;
-  isolation: isolate;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset,
-              0 10px 28px rgba(0, 0, 0, 0.45);
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 220ms ease;
-}
-.primary-pill::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(90deg, #6d28d9, #ec4899);
-  transform: translateX(-101%);
-  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.primary-pill > * {
-  transition: color 240ms ease;
-  position: relative;
-  z-index: 1;
-}
-.primary-pill:hover {
-  color: #fff;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset,
-              0 16px 40px rgba(109, 40, 217, 0.45);
-}
-.primary-pill:hover::before {
-  transform: translateX(0);
-}
-.primary-pill:hover svg {
-  transform: translateX(4px);
-}
-.primary-pill svg {
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.primary-pill:active {
-  transform: translateY(1px) scale(0.99);
-}
-.primary-pill:disabled {
-  background: var(--c-zinc-800);
-  color: var(--c-fg-faint);
-  box-shadow: none;
-  cursor: not-allowed;
-}
-.primary-pill:disabled::before { display: none; }
-
+/* ─── Shared pill buttons — solid white, tactile press ────────────────── */
+/* All pills are pure white and stay white. Hover: only scale/translate.
+   Active: shadow flips to inset for the press-into-surface feel. */
+.primary-pill,
 .ghost-pill {
-  position: relative;
-  background: transparent;
-  color: var(--c-fg);
-  border: 1px solid var(--c-border-raised);
-  padding: 16px 28px;
-  border-radius: var(--radius-pill);
+  background: #ffffff;
+  color: #1f2937;
+  border: none;
+  border-radius: 50px;
   font-family: var(--type-sans);
   font-weight: 500;
-  font-size: 15px;
   letter-spacing: -0.005em;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  overflow: hidden;
-  isolation: isolate;
-  transition: border-color 220ms ease, color 220ms ease,
-              box-shadow 220ms ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.ghost-pill::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(-101%);
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-}
+.primary-pill { padding: 12px 28px; font-size: 15px; }
+.ghost-pill   { padding: 11px 22px; font-size: 14px; }
+
+.primary-pill:hover,
 .ghost-pill:hover {
-  border-color: var(--c-fg);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  /* Explicitly redeclare the white background so the global
+     `button:hover` rule in globals.css can't override it. */
+  background: #ffffff;
+  transform: scale(1.02) translateY(-1px);
 }
-.ghost-pill:hover::before {
-  transform: translateX(0);
+.primary-pill:hover svg {
+  transform: translateX(3px);
+}
+.primary-pill svg {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.primary-pill:active,
+.ghost-pill:active {
+  background: #ffffff;
+  transform: scale(0.96) translateY(1px);
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+.primary-pill:disabled {
+  background: #d4d4d8;
+  color: #71717a;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* ─── Landing scene ───────────────────────────────────────────────────── */
@@ -138,6 +92,15 @@
 .landing-v2__title-line {
   display: block;
 }
+.landing-v2__title-line--tiny {
+  /* The parent .landing-v2__title is 132px @ clamp; if this wrapper line
+     inherits that font-size, its line-box is ~129px tall even though
+     the inner "on the" span is only 32px. Force the wrapper itself to
+     match the small text size so the line-box collapses around it. */
+  font-size: clamp(20px, 2.4vw, 32px);
+  line-height: 1.1;
+  margin: 0;
+}
 
 .landing-v2__title-italic {
   font-style: italic;
@@ -166,10 +129,9 @@
   color: var(--c-fg-dim);
   line-height: 1.6;
 }
-.landing-v2__sub-italic {
-  font-family: var(--type-serif);
-  font-style: italic;
+.landing-v2__sub-lead {
   color: var(--c-fg);
+  font-weight: 500;
   letter-spacing: 0.005em;
 }
 
