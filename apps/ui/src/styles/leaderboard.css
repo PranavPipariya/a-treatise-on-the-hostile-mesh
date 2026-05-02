@@ -162,12 +162,8 @@ a.lb-agent__ens:hover { color: var(--c-fg); }
 }
 
 .landing-v2__leaderboard {
-  margin-left: 12px;
-}
-.landing-v2__cta-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+  /* CTA row already lays out the leaderboard ghost pill next to Start Battle —
+     no extra spacing override needed now. */
 }
 
 @media (max-width: 720px) {

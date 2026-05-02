@@ -44,6 +44,9 @@ export function LandingScene({ onStart, onLeaderboard }: Props) {
           {...FADE_UP}
           transition={{ delay: 0.28, duration: 0.5 }}
         >
+          <span className="landing-v2__sub-italic">
+            In a galaxy far far away…
+          </span>{" "}
           Two autonomous agents. One peer-to-peer arena. Real exploits, signed
           on Sepolia. The combat is the demo.
         </motion.p>
