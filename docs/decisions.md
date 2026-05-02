@@ -78,8 +78,8 @@ ids are random-uuid-derived, so this is moot in practice.
 ## D6 · Real LLM agent loop (Anthropic, streaming)
 
 **Decision**: Both combatants and chorus members run real Claude calls
-through a Godel-derived streaming orchestrator with typed Pydantic tools,
-context compression, and infinite-loop detection.
+through a streaming orchestrator with typed Pydantic tools, context
+compression, and infinite-loop detection.
 
 **Why**: The previous scaffold used a hardcoded "policy callable" that
 returned `[(tool_name, args)]`. That isn't an agent — it's a state

@@ -51,8 +51,8 @@ class RuntimeConfig:
         env_model_key = (
             "HOSTILE_MESH_COMBATANT_MODEL" if role == "combatant" else "HOSTILE_MESH_CHORUS_MODEL"
         )
-        # Provider-agnostic key resolution. OpenRouter (Godel-style API_KEY)
-        # takes precedence if present, then ANTHROPIC_API_KEY, then OPENROUTER_API_KEY.
+        # Provider-agnostic key resolution. A generic API_KEY (OpenRouter-
+        # compatible) takes precedence, then ANTHROPIC_API_KEY, then OPENROUTER_API_KEY.
         api_key = (
             os.getenv("API_KEY")
             or os.getenv("ANTHROPIC_API_KEY")

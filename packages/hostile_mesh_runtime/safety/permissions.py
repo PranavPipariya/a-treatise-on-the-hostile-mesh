@@ -34,7 +34,7 @@ class PermissionManager:
     explicitly forbidden returns ``REJECTED``.
 
     The engine exists so the *same* runtime can be reused for non-combat
-    contexts (e.g. running Godel against a real workspace) by simply
+    contexts (e.g. running an agent against a real workspace) by simply
     tightening the policy.
     """
 

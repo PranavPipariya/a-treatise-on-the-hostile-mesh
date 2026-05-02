@@ -13,9 +13,8 @@ class LoopDetector:
     2. Cycling between two or three actions (probe-A, probe-B, probe-A,
        probe-B …).
 
-    Architecturally derived from Godel's ``LoopDetector`` but with a wider
-    history window because combat agents take more turns per match than a
-    typical coding session.
+    Wider history window than typical coding-agent loops because combat
+    agents take more turns per match.
     """
 
     def __init__(self, max_exact_repeats: int = 3, max_cycle_length: int = 3) -> None:

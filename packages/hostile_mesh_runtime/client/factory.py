@@ -24,7 +24,7 @@ def make_client(config: RuntimeConfig) -> LLMClient:
 
     Resolution order:
       1. Explicit ``HOSTILE_MESH_LLM_PROVIDER=anthropic|openrouter|openai``.
-      2. If ``API_KEY`` (Godel-style) or ``OPENROUTER_API_KEY`` is set →
+      2. If a generic ``API_KEY`` or ``OPENROUTER_API_KEY`` is set →
          OpenRouter.
       3. If ``ANTHROPIC_API_KEY`` is set → Anthropic.
       4. Otherwise → Anthropic (will fail loudly when first stream is called).

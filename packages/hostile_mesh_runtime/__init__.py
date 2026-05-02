@@ -1,10 +1,10 @@
 """Hostile Mesh agent runtime.
 
-Streaming Anthropic loop with typed Pydantic tools, context compression,
-infinite-loop detection, lifecycle hooks, six-mode permission engine, and
-session/checkpoint primitives. Architecturally derived from Godel; specialised
-for adversarial combat agents whose tools include `inspect_self`, `patch_self`,
-`probe`, `exploit`, and `claim`.
+Streaming Anthropic / OpenRouter loop with typed Pydantic tools, context
+compression, infinite-loop detection, lifecycle hooks, six-mode permission
+engine, and session/checkpoint primitives. Specialised for adversarial
+combat agents whose tools include `inspect_self`, `patch_self`, `probe`,
+`exploit`, and `claim`.
 """
 
 from hostile_mesh_runtime.config import RuntimeConfig

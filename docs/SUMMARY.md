@@ -20,7 +20,7 @@ under five minutes.
 
 ## Quick navigation
 
-**The agent loop** — adapted from Godel
+**The agent loop** — streaming orchestrator with typed tools, loop detection, and context compression
 - `packages/hostile_mesh_runtime/runtime/orchestrator.py` — streaming loop
 - `packages/hostile_mesh_runtime/client/anthropic_client.py` — tool-use streaming
 - `packages/hostile_mesh_runtime/tools/registry.py` — Pydantic-validated dispatch

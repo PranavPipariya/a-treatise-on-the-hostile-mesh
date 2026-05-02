@@ -72,7 +72,7 @@ class StreamEvent:
 
 
 class AnthropicClient:
-    """Streaming Anthropic Messages client adapted to a Godel-style event API.
+    """Streaming Anthropic Messages client with a typed event API.
 
     Yields a uniform stream of typed events regardless of whether the model
     returned text, tool calls, or both. Retries on rate limits / connection

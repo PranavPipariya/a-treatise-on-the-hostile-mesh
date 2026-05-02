@@ -125,7 +125,7 @@ class OpenRouterClient:
 
     Works with OpenRouter (default), OpenAI direct, or any other
     OpenAI-compatible host. The base URL is read from
-    ``HOSTILE_MESH_LLM_BASE_URL`` (or ``BASE_URL`` for Godel-compat).
+    ``HOSTILE_MESH_LLM_BASE_URL`` (or ``BASE_URL`` as a generic fallback).
     """
 
     def __init__(self, config: RuntimeConfig, max_retries: int = 3) -> None:
