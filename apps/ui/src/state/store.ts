@@ -10,7 +10,11 @@ import type {
   SeededBug,
 } from "../types";
 
-const ARENA_URL = import.meta.env.VITE_ARENA_URL || "http://127.0.0.1:8787";
+const DEFAULT_ARENA_URL =
+  import.meta.env.DEV || typeof window === "undefined"
+    ? "http://127.0.0.1:8787"
+    : window.location.origin;
+const ARENA_URL = import.meta.env.VITE_ARENA_URL || DEFAULT_ARENA_URL;
 
 type Listener = () => void;
 

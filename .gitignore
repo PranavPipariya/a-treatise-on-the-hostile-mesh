@@ -20,6 +20,12 @@ private.pem
 node_modules/
 apps/ui/dist/
 apps/ui/.vite/
+apps/ui/*.tsbuildinfo
+apps/ui/vite.config.js
+apps/ui/vite.config.d.ts
+
+# Recordings
+recordings/
 
 # AXL binary (built locally)
 infra/axl/node
@@ -43,4 +49,3 @@ thoughts.md
 # Local CLI logs
 *.demo.log
 demo.log
-
