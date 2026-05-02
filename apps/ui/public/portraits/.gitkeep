@@ -1,0 +1,9 @@
+Drop combatant + chorus PNGs here. Filenames:
+
+  nightshade.png        ironbark.png
+  historian.png         analyst.png
+  loyalist.png          skeptic.png
+  chaos.png
+
+Recommended: 512×512, dark cinematic style. Until present, the UI falls
+back to per-agent gradient silhouettes.
