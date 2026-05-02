@@ -1,0 +1,46 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.DS_Store
+
+# Runtime state
+.axl/
+.keystore/
+.match-state/
+.logs/
+*.pem
+private.pem
+/tmp/demo.log
+
+# UI
+node_modules/
+apps/ui/dist/
+apps/ui/.vite/
+
+# AXL binary (built locally)
+infra/axl/node
+infra/axl/axl-source/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Reference repo + scratch
+Godel/
+.claude/
+/*.png
+players/Screenshot*.png
+judges/Screenshot*.png
+hostile_mesh.egg-info/
+ens.txt
+thoughts.md
+
+# Local CLI logs
+*.demo.log
+demo.log
+
