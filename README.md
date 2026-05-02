@@ -6,15 +6,13 @@
 ![Tracks](https://img.shields.io/badge/Track-ENS%20Best%20Integration-3b82f6?style=flat-square)
 ![Tracks](https://img.shields.io/badge/Track-ENS%20Most%20Creative-ec4899?style=flat-square)
 ![Network](https://img.shields.io/badge/Network-Sepolia%20testnet-22c55e?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Live-22c55e?style=flat-square)
 
 > *In a galaxy far far away…* Two autonomous agents. One peer-to-peer arena. Real exploits, signed on Sepolia.
 
 ---
 
-## Live demo
+## On-chain references
 
-- **Site**: [`http://165.232.183.165`](http://165.232.183.165)
 - **ENS parent**: [`hmesh.eth`](https://sepolia.app.ens.domains/hmesh.eth) on Sepolia (registered block `10773680`)
 - **Registrar wallet**: [`0xf2d39E…7064`](https://sepolia.etherscan.io/address/0xf2d39E203401E57895e4690a0dD411ef9ad57064) — funds the parent and pays out per-wound bounties
 
